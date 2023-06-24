@@ -8,7 +8,6 @@ import (
 	"entgo.io/ent/dialect"
 	entsql "entgo.io/ent/dialect/sql"
 	sqlconfig "github.com/deployport/pavement/sql/config"
-	sqlmigrations "github.com/deployport/pavement/sql/migrations"
 	pgxzap "github.com/jackc/pgx-zap"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/stdlib"
@@ -24,7 +23,6 @@ func NewClient[TTx EntTransaction, TClient EntClient[TTx]](
 	ctx context.Context,
 	logger *zap.Logger,
 	config sqlconfig.Connection,
-	catalog *sqlmigrations.Catalog,
 	entCreator func(driver *entsql.Driver) TClient,
 ) (*Client[TTx, TClient], error) {
 	logger = logger.Named("maindb")
@@ -36,7 +34,7 @@ func NewClient[TTx EntTransaction, TClient EntClient[TTx]](
 	dbLogger := pgxzap.NewLogger(logger)
 	connConfig.Tracer = &tracelog.TraceLog{
 		Logger:   dbLogger,
-		LogLevel: tracelog.LogLevelInfo,
+		LogLevel: config.Logging.Level.TraceLog(),
 	}
 	connStr := stdlib.RegisterConnConfig(connConfig)
 	db, err := sql.Open("pgx", connStr)
@@ -48,8 +46,7 @@ func NewClient[TTx EntTransaction, TClient EntClient[TTx]](
 	}
 	drv := entsql.OpenDB(dialect.Postgres, db)
 	return &Client[TTx, TClient]{
-		Client:  entCreator(drv),
-		Catalog: catalog,
+		Client: entCreator(drv),
 	}, nil
 }
 
@@ -66,8 +63,7 @@ type EntClient[TTx EntTransaction] interface {
 
 // Client entdata is a connected client instance
 type Client[TTx EntTransaction, TClient EntClient[TTx]] struct {
-	Client  TClient
-	Catalog *sqlmigrations.Catalog
+	Client TClient
 }
 
 // WithTx executes a function in the context of a transaction

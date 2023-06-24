@@ -39,6 +39,9 @@ func NewCatalog(
 	}, nil
 }
 
+// PreparedBuilder is a function that creates a Catalog instance
+type PreparedBuilder func(logger *zap.Logger, config config.Connection) (*Catalog, error)
+
 // Up runs all pending migrations
 func (m *Catalog) Up(ctx context.Context) error {
 	logger := m.logger

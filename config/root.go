@@ -61,7 +61,7 @@ func (root *Root[T]) overrideFromFile(filename string) error {
 	if err != nil {
 		return err
 	}
-	if err := yaml.Unmarshal(content, root); err != nil {
+	if err := yaml.Unmarshal(content, root.C); err != nil {
 		return err
 	}
 	return nil

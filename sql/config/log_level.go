@@ -9,12 +9,15 @@ import (
 // LogLevel is the pgx logging level. See LogLevel* constants for
 type LogLevel tracelog.LogLevel
 
+// String returns the string representation of the Level
+func (l *LogLevel) String() string {
+	return l.TraceLog().String()
+}
+
 // MarshalText marshals the Level to text.
-func (l *LogLevel) MarshalText() ([]byte, error) {
-	if l == nil {
-		return nil, errUnmarshalNilLevel
-	}
-	return []byte(tracelog.LogLevel(*l).String()), nil
+func (l LogLevel) MarshalText() ([]byte, error) {
+	s := l.TraceLog().String()
+	return []byte(s), nil
 }
 
 // UnmarshalText unmarshals text to a level. Like MarshalText, UnmarshalText

@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent/dialect"
 	entsql "entgo.io/ent/dialect/sql"
 	sqlconfig "github.com/deployport/pavement/sql/config"
+	"github.com/deployport/pavement/sql/migrations"
 	pgxzap "github.com/jackc/pgx-zap"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/stdlib"
@@ -24,9 +25,20 @@ func NewClient[TTx EntTransaction, TClient EntClient[TTx]](
 	logger *zap.Logger,
 	config sqlconfig.Connection,
 	entCreator func(driver *entsql.Driver) TClient,
+	newMigration migrations.PreparedBuilder,
 ) (*Client[TTx, TClient], error) {
 	logger = logger.Named("maindb")
 	databaseURL := config.URL
+	logger.Info("auto migrate", zap.Bool("enabled", config.AutoMigrate))
+	if config.AutoMigrate {
+		catalog, err := newMigration(logger, config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create migration catalog, %w", err)
+		}
+		if err := catalog.Up(ctx); err != nil {
+			return nil, fmt.Errorf("failed to run auto-migrations, %w", err)
+		}
+	}
 	connConfig, err := pgx.ParseConfig(databaseURL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse database url, %w", err)

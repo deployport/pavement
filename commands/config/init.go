@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func buildInitCommand[T any](ctx context.Context, root *config.Root[T], configFileName string) *cobra.Command {
+func buildInitCommand[T any](ctx context.Context, config *config.Backed[T], configFileName string) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "init",
 		Short: "initializes a copy of a default configuration file",
@@ -17,7 +17,7 @@ func buildInitCommand[T any](ctx context.Context, root *config.Root[T], configFi
 		RunE: func(cmd *cobra.Command, args []string) error {
 			configFileName := "mainprocess-config.yaml"
 
-			if err := root.WriteFile(configFileName); err != nil {
+			if err := config.WriteFile(configFileName); err != nil {
 				return err
 			}
 			fmt.Fprintf(os.Stderr, "initialized config file %s\n", configFileName)

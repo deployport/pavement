@@ -9,7 +9,7 @@ import (
 
 // RootParams are the parameters for the root command
 type RootParams[T any] struct {
-	Root         *config.Root[T]
+	BackedConfig         *config.Backed[T]
 	InitFilename string
 }
 
@@ -18,6 +18,6 @@ func Root[T any](ctx context.Context, params RootParams[T]) *cobra.Command {
 	var rootCmd = &cobra.Command{
 		Use: "config",
 	}
-	rootCmd.AddCommand(buildInitCommand(ctx, params.Root, params.InitFilename))
+	rootCmd.AddCommand(buildInitCommand(ctx, params.BackedConfig, params.InitFilename))
 	return rootCmd
 }

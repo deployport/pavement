@@ -28,5 +28,11 @@ func Build(
 			params.Logger,
 			params.NewCatalog,
 		),
+		buildDownCommand(
+			ctx,
+			params.Connection,
+			params.Logger,
+			params.NewCatalog,
+		),
 	}
 }

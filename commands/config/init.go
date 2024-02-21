@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/deployport/pavement/config"
 	"github.com/spf13/cobra"
+	"go.deployport.com/pavement/config"
 )
 
 func buildInitCommand[T any](ctx context.Context, config *config.Backed[T], configFileName string) *cobra.Command {

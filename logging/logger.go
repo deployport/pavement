@@ -6,7 +6,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
-	loggingconfig "github.com/deployport/pavement/logging/config"
+	loggingconfig "go.deployport.com/pavement/logging/config"
 )
 
 // Logger is a wrapper around zap.Logger

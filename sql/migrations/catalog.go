@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"io/fs"
 
-	"github.com/deployport/pavement/sql/config"
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/source/iofs"
+	"go.deployport.com/pavement/sql/config"
 	"go.uber.org/zap"
 )
 

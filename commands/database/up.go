@@ -3,10 +3,10 @@ package maindb
 import (
 	"context"
 
-	"github.com/deployport/pavement/logging"
-	sqlconfig "github.com/deployport/pavement/sql/config"
-	"github.com/deployport/pavement/sql/migrations"
 	"github.com/spf13/cobra"
+	"go.deployport.com/pavement/logging"
+	sqlconfig "go.deployport.com/pavement/sql/config"
+	"go.deployport.com/pavement/sql/migrations"
 )
 
 func buildUpCommand(

@@ -1,4 +1,4 @@
-module github.com/deployport/pavement
+module go.deployport.com/pavement
 
 go 1.20
 

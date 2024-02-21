@@ -7,13 +7,13 @@ import (
 
 	"entgo.io/ent/dialect"
 	entsql "entgo.io/ent/dialect/sql"
-	sqlconfig "github.com/deployport/pavement/sql/config"
-	"github.com/deployport/pavement/sql/migrations"
 	pgxzap "github.com/jackc/pgx-zap"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/stdlib"
 	_ "github.com/jackc/pgx/v5/stdlib" // register pgx driver
 	"github.com/jackc/pgx/v5/tracelog"
+	sqlconfig "go.deployport.com/pavement/sql/config"
+	"go.deployport.com/pavement/sql/migrations"
 	"go.uber.org/zap"
 )
 

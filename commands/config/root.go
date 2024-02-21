@@ -3,13 +3,13 @@ package config
 import (
 	"context"
 
-	"github.com/deployport/pavement/config"
 	"github.com/spf13/cobra"
+	"go.deployport.com/pavement/config"
 )
 
 // RootParams are the parameters for the root command
 type RootParams[T any] struct {
-	BackedConfig         *config.Backed[T]
+	BackedConfig *config.Backed[T]
 	InitFilename string
 }
 

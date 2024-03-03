@@ -15,8 +15,10 @@ func buildDownCommand(
 	logger *logging.Logger,
 	newCatalog migrations.PreparedBuilder,
 ) *cobra.Command {
+	confirm := false
 	var cmd = &cobra.Command{
-		Use: "down",
+		Use:   "down",
+		Short: "Rollbacks all pending down migrations",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			catalog, err := newCatalog(logger.Logger, *dbconfig)
 			if err != nil {
@@ -25,5 +27,7 @@ func buildDownCommand(
 			return catalog.Down(ctx)
 		},
 	}
+	cmd.Flags().BoolVar(&confirm, "confirm", false, "confirms the caller understand this command rollbacks all migrations effectively destroying the structure of the database")
+	cmd.MarkFlagRequired("confirm")
 	return cmd
 }

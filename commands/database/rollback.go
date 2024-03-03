@@ -9,21 +9,21 @@ import (
 	"go.deployport.com/pavement/sql/migrations"
 )
 
-func buildUpCommand(
+func buildRollbackCommand(
 	ctx context.Context,
 	dbconfig *sqlconfig.Connection,
 	logger *logging.Logger,
 	newCatalog migrations.PreparedBuilder,
 ) *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:   "up",
-		Short: "Runs all pending up migrations",
+		Use:   "rollback",
+		Short: "Rollbacks the last migration",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			catalog, err := newCatalog(logger.Logger, *dbconfig)
 			if err != nil {
 				return err
 			}
-			return catalog.Up(ctx)
+			return catalog.Rollback(ctx)
 		},
 	}
 	return cmd

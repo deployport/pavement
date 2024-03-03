@@ -58,9 +58,19 @@ func (m *Catalog) Up(ctx context.Context) error {
 	return nil
 }
 
-// Down rollbacks the last database migration
+// Down rollbacks the all previous database migrations
 func (m *Catalog) Down(ctx context.Context) error {
 	logger := m.logger
 	logger.Debug("down")
 	return m.migrate.Down()
+}
+
+// Rollback rollbacks the last database migration
+func (m *Catalog) Rollback(ctx context.Context) error {
+	logger := m.logger
+	logger.Debug("down")
+	if err := m.migrate.Steps(-1); err != nil {
+		return fmt.Errorf("failed to rollback database migration, %w", err)
+	}
+	return nil
 }

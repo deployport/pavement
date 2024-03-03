@@ -34,5 +34,11 @@ func Build(
 			params.Logger,
 			params.NewCatalog,
 		),
+		buildRollbackCommand(
+			ctx,
+			params.Connection,
+			params.Logger,
+			params.NewCatalog,
+		),
 	}
 }
